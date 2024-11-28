@@ -19,3 +19,6 @@ release.properties
 Thumbs.db
 
 .env
+
+# VS Code
+.vscode/

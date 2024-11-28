@@ -6,6 +6,7 @@ import com.microsoft.semantickernel.aiservices.openai.chatcompletion.OpenAIChatC
 import com.microsoft.semantickernel.orchestration.InvocationContext;
 import com.microsoft.semantickernel.orchestration.PromptExecutionSettings;
 import com.microsoft.semantickernel.services.chatcompletion.ChatCompletionService;
+import com.microsoft.semantickernel.services.chatcompletion.ChatHistory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -51,17 +52,35 @@ public class SemanticKernelConfiguration {
     }
 
     /**
+     * Creates a {@link PromptExecutionSettings} bean with default settings.
+     *
+     * @return an instance of {@link PromptExecutionSettings}
+     */
+    @Bean
+    public PromptExecutionSettings promptExecutionSettings() {
+        return PromptExecutionSettings.builder()
+                .withTemperature(0.8)
+                .withMaxTokens(300)
+                .withTopP(0.7)
+                .build();
+    }
+
+    /**
      * Creates an {@link InvocationContext} bean with default prompt execution settings.
      *
      * @return an instance of {@link InvocationContext}
      */
     @Bean
-    public InvocationContext invocationContext() {
+    public InvocationContext invocationContext(PromptExecutionSettings promptExecutionSettings) {
         return InvocationContext.builder()
-                .withPromptExecutionSettings(PromptExecutionSettings.builder()
-                        .withTemperature(1.0)
-                        .build())
+                .withPromptExecutionSettings(promptExecutionSettings)
                 .build();
+    }
+
+    @Bean
+    public ChatHistory chatHistory() {
+        // Can add here a system message to the chat history
+        return new ChatHistory();
     }
 }
 
