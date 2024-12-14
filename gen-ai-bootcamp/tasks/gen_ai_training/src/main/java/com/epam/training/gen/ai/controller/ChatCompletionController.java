@@ -18,6 +18,7 @@ public class ChatCompletionController {
 
     private final PromptService simplePromptService;
     private final PromptService promptWithHistoryService;
+    private final PromptService promptWithPluginsService;
 
     @PostMapping("/prompt")
     public ResponseEntity<UserResponse> simplePrompt(@RequestBody UserRequest userRequest) throws ServiceNotFoundException {
@@ -28,6 +29,12 @@ public class ChatCompletionController {
     @PostMapping("/promptWithHistory")
     public ResponseEntity<UserResponse> promptWithHistory(@RequestBody UserRequest userRequest) throws ServiceNotFoundException {
         String chatCompletion = promptWithHistoryService.getChatCompletion(userRequest.getUserPrompt());
+        return ResponseEntity.ok(new UserResponse(chatCompletion));
+    }
+
+    @PostMapping("/promptWithPlugins")
+    public ResponseEntity<UserResponse> promptWithPlugins(@RequestBody UserRequest userRequest) throws ServiceNotFoundException {
+        String chatCompletion = promptWithPluginsService.getChatCompletion(userRequest.getUserPrompt());
         return ResponseEntity.ok(new UserResponse(chatCompletion));
     }
 

@@ -28,7 +28,7 @@ public class ModelsController {
         try {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(azureOpenAiUrl))
+                    .uri(URI.create(azureOpenAiUrl + "/openai/deployments"))
                     .setHeader("Api-Key", azureOpenAiKey)
                     .GET()
                     .build();
