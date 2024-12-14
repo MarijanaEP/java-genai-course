@@ -1,10 +1,14 @@
 package com.epam.training.gen.ai.configuration;
 
 import com.azure.ai.openai.OpenAIAsyncClient;
+import com.epam.training.gen.ai.plugin.LightsPlugin;
+import com.epam.training.gen.ai.plugin.WeatherPlugin;
 import com.microsoft.semantickernel.Kernel;
 import com.microsoft.semantickernel.aiservices.openai.chatcompletion.OpenAIChatCompletion;
 import com.microsoft.semantickernel.orchestration.InvocationContext;
 import com.microsoft.semantickernel.orchestration.PromptExecutionSettings;
+import com.microsoft.semantickernel.plugin.KernelPlugin;
+import com.microsoft.semantickernel.plugin.KernelPluginFactory;
 import com.microsoft.semantickernel.services.chatcompletion.ChatCompletionService;
 import com.microsoft.semantickernel.services.chatcompletion.ChatHistory;
 import org.springframework.beans.factory.annotation.Value;
@@ -75,6 +79,16 @@ public class SemanticKernelConfiguration {
         return InvocationContext.builder()
                 .withPromptExecutionSettings(promptExecutionSettings)
                 .build();
+    }
+
+    @Bean("weatherPlugin")
+    public KernelPlugin weatherPlugin() {
+        return KernelPluginFactory.createFromObject(new WeatherPlugin(), "WeatherPlugin");
+    }
+
+    @Bean("lightsPlugin")
+    public KernelPlugin lightPlugin() {
+        return KernelPluginFactory.createFromObject(new LightsPlugin(), "LightsPlugin");
     }
 
     @Bean
